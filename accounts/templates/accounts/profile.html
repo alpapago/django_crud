@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div>
+    <h1>{{ user }}님의 페이지</h1>
+    <hr>
+  </div>
+  <h3>장바구니에 담은 상품들</h3>
+
+  {% comment %} 역참조로 프로필 페이지에서도 상품을 갖고 올 수 있다. 
+  {{ user.cart.all }} 이건 주소만 담겨있다. {% endcomment %}
+  {% comment %} forloop.counter쓰면, 갯수 셀 수 있다. {% endcomment %}
+
+  {% for product in user.cart.all  %}
+    <p>  {{ forloop.counter }} : {{ product.title }} </p>
+    <a href="{% url "shop:addcart" product.id %}"> <button>삭제하기</button> </a>
+    <hr>
+  {% empty %}
+  <p>담긴 상품이 없습니다. </p>
+  {% endfor %}
+
+  <hr>
+  <a href="{% url "shop:index" %}">[뒤로 가기]</a>
+  <a href="{% url "accounts:logout" %}">[로그아웃 하기]</a>
+
+{% endblock content %}
